@@ -1,0 +1,12 @@
+{
+  "name": "Battlehost-vue",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/moffkr91/Battlehost-vue.git",
+  "author": "kmoffett <moffkr91@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "pm2 start ./server/server.js  --watch --name server && cd client && yarn run dev"
+  }
+}
+
