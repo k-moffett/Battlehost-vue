@@ -123,7 +123,13 @@ export default {
         },
         submitSignin() {
             event.preventDefault()
-            axios.post('/signup')
+            axios.post('/signup', {
+                data: {
+                    email: this.email,
+                    username: this.username,
+                    password: this.password
+                }
+            })
             .then((response) => {
                 console.log(response)
             })

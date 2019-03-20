@@ -16,7 +16,7 @@ module.exports = {
 },
   devServer: {
     port: 3000,
-    index: '', // specify to enable root proxying
+    index: '', 
     proxy: {
       context: () => true,
       target: 'http://localhost:8081'
