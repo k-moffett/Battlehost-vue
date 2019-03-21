@@ -19,8 +19,6 @@ app.use(history({
 }));
 app.use(staticFileMiddleware);
 
-// app.listen(PORT, console.log(`Server Up on ${PORT}!`));
-
 sequelize.sync().then(() => {
   app.listen(PORT, () => {
     console.log(`Server up on port ${PORT}!`)

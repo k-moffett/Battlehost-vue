@@ -8,4 +8,6 @@ const models = {
   User: sequelize.import('./userModel'),
 };
 
-module.exports =  sequelize
+
+module.exports = models
+module.exports =  sequelize 
