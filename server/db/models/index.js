@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize')
+require('dotenv').config()
 
-const sequelize = new Sequelize('battlehost', process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
+const sequelize = new Sequelize(process.env.DATABASE, process.env.DATABASE_USER, process.env.DATABASE_PASSWORD, {
     dialect: 'postgres',
   })
 
@@ -8,6 +9,6 @@ const models = {
   User: sequelize.import('./userModel'),
 };
 
-
+console.log('DB', process.env.DATABASE_USER)
 module.exports = models
 module.exports =  sequelize 

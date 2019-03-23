@@ -1,9 +1,13 @@
+require('dotenv').config()
 const models = require('../models')
 const userModel = models.models.Users
+const encrypt = require('../../tools/encrypt')
+const decrypt = require('../../tools/decrypt')
 
 const userController = {
 
     async validateEmail(method, data) {
+        console.log('ENV: ', process.env.DATABASE)
         let lookupEmail = 
             await userModel.findOne({where: {email: data.email}})
             .catch((error) => {console.log('EMAIL LOOKUP ERROR: \n', error)})
@@ -41,10 +45,11 @@ const userController = {
     },
 
      async signup(data) {
-         let createUser = 
-            await userModel.create({email: data.email, username: data.username, password: data.password})
+        let password = await encrypt(data.password)
+        let createUser = 
+            await userModel.create({email: data.email, username: data.username, password: password})
             .catch((error) => {console.log('CREATE USER ERROR: \n', error)})
-            
+
             return {success: 'user created'}
     },
 
