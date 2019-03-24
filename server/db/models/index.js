@@ -9,6 +9,5 @@ const models = {
   User: sequelize.import('./userModel'),
 };
 
-console.log('DB', process.env.DATABASE_USER)
 module.exports = models
 module.exports =  sequelize 

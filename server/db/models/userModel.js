@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       unique: true,
     },
+    sessid: {
+      type: DataTypes.STRING,
+      unique: true
+    }
   });
 
   return User;

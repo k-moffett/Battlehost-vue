@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
     name: 'Signin',
    data: () => ({
@@ -62,8 +64,19 @@ export default {
     },
     submitLogin() {
         event.preventDefault()
-        this.$router.push('/home')
-    },
+            axios.post('/signin', {
+                data: {
+                    email: this.email,
+                    password: this.password
+                }
+            })
+            .then((response) => {
+                console.log(response)
+                // this.$router.push('/home')
+            })
+            .catch((err) => {
+                console.log(err)
+            })    },
     validateEmptyForm() {
         if (this.email === '' || this.password === '') {
             this.emptyForm = true

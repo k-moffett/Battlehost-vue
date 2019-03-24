@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.9.4/libexec/bin/yarn.js add dotenv
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.9.4/libexec/bin/yarn.js add uuid
 
 PATH: 
   /Users/kmoffett/perl5/perlbrew/bin:/Users/kmoffett/perl5/perlbrew/perls/perl-5.28.0/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/dotnet:~/.dotnet/tools:/Library/Frameworks/Mono.framework/Versions/Current/Commands:/Applications/Xamarin Workbooks.app/Contents/SharedSupport/path-bin
@@ -14,7 +14,7 @@ Platform:
   darwin x64
 
 Trace: 
-  Error: EACCES: permission denied, unlink '/Users/kmoffett/code/my-code/march/Battlehost-vue/server/node_modules/.bin/atob'
+  Error: EACCES: permission denied, unlink '/Users/kmoffett/code/my-code/march/Battlehost-vue/server/node_modules/bcrypt/CHANGELOG.md'
 
 npm manifest: 
   {
@@ -23,8 +23,10 @@ npm manifest:
     "main": "index.js",
     "license": "MIT",
     "dependencies": {
+      "bcrypt": "^3.0.5",
       "body-parser": "^1.18.3",
       "connect-history-api-fallback": "^1.6.0",
+      "dotenv": "^7.0.0",
       "express": "^4.16.4",
       "pg": "^7.8.1",
       "pg-hstore": "^2.3.2",
@@ -612,6 +614,10 @@ Lockfile:
   detect-libc@^1.0.2:
     version "1.0.3"
     resolved "https://registry.yarnpkg.com/detect-libc/-/detect-libc-1.0.3.tgz#fa137c4bd698edf55cd5cd02ac559f91a4c4ba9b"
+  
+  dotenv@^7.0.0:
+    version "7.0.0"
+    resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-7.0.0.tgz#a2be3cd52736673206e8a85fb5210eea29628e7c"
   
   dottie@^2.0.0:
     version "2.0.1"

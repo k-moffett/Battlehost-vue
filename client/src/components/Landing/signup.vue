@@ -78,6 +78,18 @@
                     </div>
                 </transition>
 
+                <transition name="fade">
+                    <div id="unconfirmed-password" v-show="emailInUse">
+                            - It looks like there's already an account using this email address.
+                    </div>
+                </transition>
+
+                <transition name="fade">
+                    <div id="unconfirmed-password" v-show="usernameInUse">
+                            - It looks like another user has claimed this username already.
+                    </div>
+                </transition>
+
             </section>
         </div>
 
@@ -108,6 +120,8 @@ export default {
         invalidPassword: '',
         invalidPassword2: '',
         invalidUsernameErr: '',
+        emailInUse: '',
+        usernameInUse: '',
         emailErr: false,
         passLengthErr: false,
         passLowerErr: false,
@@ -132,11 +146,23 @@ export default {
             })
             .then((response) => {
                 console.log(response)
+                if (response.data === 'email in use') {
+                    this.emailInUse = true
+                } else if (response.data != 'email in use') {
+                    this.emailInUse = false
+                } 
+                if (response.data === 'username in use') {
+                    this.usernameInUse = true
+                } else if (response.data != 'username in use') {
+                    this.usernameInUse = false
+                }
+                if (response.data.success) {
+                    this.$router.push('/home')
+                }
             })
             .catch((err) => {
                 console.log(err)
             })
-            // this.$router.push('/home')
         },
         validateEmail() {
             const emailRegex = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/
