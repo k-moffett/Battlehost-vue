@@ -4,7 +4,7 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server --config webpack.config.js --open --history-api-fallback",
+    "dev": "webpack-dev-server --config webpack.config.js --open",
     "build": "webpack --config webpack.config.js"
   },
   "devDependencies": {

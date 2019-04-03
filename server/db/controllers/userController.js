@@ -36,7 +36,6 @@ const userController = {
     },
 
     async validateEmail(method, data) {
-        console.log('VALIDATE EMAIL METHOD: ', method)
         let lookupEmail = 
             await userModel.findOne({where: {email: data.email}})
             .catch((error) => {console.log('EMAIL LOOKUP ERROR: \n', error)})
@@ -53,7 +52,6 @@ const userController = {
                 if (lookupEmail === null) {
                     return {error: 'email not found'}
                 } else {
-                    console.log('validateEmail method')
                     return await this.valiatePassword(data)
                 }
                 break
@@ -108,9 +106,11 @@ const userController = {
 
     async signin(data) {
         let sessid = uuidv4()
-        // let updateSessid = userModel.
-        console.log('SIGNIN',data)
-        return {success: 'signed in'}
+        let updateSessid = await userModel.update({sessid: sessid}, {where: {email: data.email}})
+        return {success: {
+            message: 'signin success',
+            sessid: sessid
+        }}
     },
 
 }

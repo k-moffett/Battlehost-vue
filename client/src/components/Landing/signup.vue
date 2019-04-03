@@ -90,6 +90,12 @@
                     </div>
                 </transition>
 
+                <transition name="fade">
+                    <div id="serverValidationError" v-show="serverValidationError">
+                            - It looks like there has been a mistake when filling out this form. You may want to reload the page and try again.
+                    </div>
+                </transition>
+
             </section>
         </div>
 
@@ -128,7 +134,8 @@ export default {
         passUpperErr: false,
         passNumberErr: false,
         passSpecialErr: false,
-        invalidForm: true
+        invalidForm: true,
+        serverValidationError: false
 
     }),
     methods: {
@@ -137,6 +144,9 @@ export default {
         },
         submitSignin() {
             event.preventDefault()
+            this.emailInUse = false
+            this.usernameInUse = false
+            this.serverValidationError = false
             axios.post('/signup', {
                 data: {
                     email: this.email,
@@ -145,23 +155,27 @@ export default {
                 }
             })
             .then((response) => {
-                console.log(response)
-                if (response.data === 'email in use') {
+                console.log(response.data.error)
+                if (response.data.error === 'email in use') {
                     this.emailInUse = true
                 } else if (response.data != 'email in use') {
                     this.emailInUse = false
                 } 
-                if (response.data === 'username in use') {
+                if (response.data.error === 'username in use') {
                     this.usernameInUse = true
                 } else if (response.data != 'username in use') {
                     this.usernameInUse = false
+                }
+                if (response.data.error === 'invalid email' || response.data.error === 'password less than 4 characters' || response.data.error === 'password greater than 16 characters' || response.data.error === 'incorrect password format') {
+                    console.log('server validation')
+                    this.serverValidationError = true
                 }
                 if (response.data.success) {
                     this.$router.push('/home')
                 }
             })
-            .catch((err) => {
-                console.log(err)
+            .catch((error) => {
+                console.log(error)
             })
         },
         validateEmail() {

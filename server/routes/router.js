@@ -4,4 +4,7 @@ module.exports = (app) => {
     require('./users/signup')(app)
     require('./users/signin')(app)
 
+    //cookie routes
+    require('./users/sessionRedirect')
+
 }

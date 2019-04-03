@@ -34,6 +34,24 @@
             </div>
         </form>
 
+        <div id="validation-errors">
+            <section>
+                <transition name="fade">
+                    <div id="emailNotFound"  v-show="emailNotFound">
+                            - There is no account with that email addess.
+                    </div>
+                </transition>
+            </section>
+
+            <section>
+                <transition name="fade">
+                    <div id="invalidPassword"  v-show="invalidPassword">
+                            - Incorrect password.
+                    </div>
+                </transition>
+            </section>
+        </div>
+
         <div class="back-btns">
             <section>
                 <button 
@@ -55,7 +73,10 @@ export default {
        password: '',
        emptyForm: true,
        loginErr: false,
-       error: ''
+       error: '',
+       emailNotFound: false,
+       invalidPassword: false,
+       
        
     }),
     methods: {
@@ -71,11 +92,25 @@ export default {
                 }
             })
             .then((response) => {
-                console.log(response)
-                // this.$router.push('/home')
+                console.log(response.data)
+                this.emailNotFound = false
+                this.invalidPassword = false
+                if (response.data.error === 'email not found') {
+                    console.log('email not found')
+                    this.emailNotFound = true
+                }
+                if (response.data.error === 'invalid password') {
+                    console.log('invalid password')
+                    this.emailNotFound = false
+                    this.invalidPassword = true
+                }
+                if(response.data.message === 'signin success') {
+                    console.log('signin success')
+                    // this.$router.push('/home')
+                }
             })
-            .catch((err) => {
-                console.log(err)
+            .catch((error) => {
+                console.log(error)
             })    },
     validateEmptyForm() {
         if (this.email === '' || this.password === '') {

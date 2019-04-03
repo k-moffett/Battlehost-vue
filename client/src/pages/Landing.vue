@@ -29,6 +29,9 @@
 </template>
 
 <script>
+const axios = require('axios')
+const sessionRedirect = require('../tools/sessionRedirect')
+
 import '../scss/Landing.scss'
 import welcome from '../components/Landing/welcome.vue'
 import signup from '../components/Landing/signup.vue'
@@ -39,6 +42,26 @@ export default {
     data: () => ({
       view: "welcome"
   }),
+
+  beforeMount() {
+    //check for user session
+    let sessidCheck = sessionRedirect(document.cookie.split(';'))
+    if (sessidCheck.data === true) {
+      //check sessid on backend
+      console.log("sessid TRUE")
+      axios.post('/sess_redir', {
+        data: 'yoyoyoyo'
+      })
+      .then((response) => {
+        consle.log(response)
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+    } else {
+      console.log('FALSE',sessidCheck)
+    }
+  },
 
   methods: {
     toSignup() {
