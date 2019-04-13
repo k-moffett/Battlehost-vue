@@ -1,5 +1,4 @@
 const userController = require('../../db/controllers/userController')
-const encrypt = require('../../tools/encrypt')
 
 module.exports = (app) => {
 
@@ -9,9 +8,7 @@ module.exports = (app) => {
             res.send(signup)
         }
         if (signup.success) {
-            let sessid = await encrypt(signup.success.sessid)
-            delete signup.success.sessid
-            res.cookie('sessid', sessid).send(signup)
+            res.cookie('sessid', signup.success.sessid).send(signup)
         }
     });
 

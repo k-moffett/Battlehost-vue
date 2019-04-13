@@ -30,7 +30,6 @@
 
 <script>
 const axios = require('axios')
-const sessionRedirect = require('../tools/sessionRedirect')
 
 import '../scss/Landing.scss'
 import welcome from '../components/Landing/welcome.vue'
@@ -43,24 +42,9 @@ export default {
       view: "welcome"
   }),
 
-  beforeMount() {
+  created() {
     //check for user session
-    let sessidCheck = sessionRedirect(document.cookie.split(';'))
-    if (sessidCheck.data === true) {
-      //check sessid on backend
-      console.log("sessid TRUE")
-      axios.post('/sess_redir', {
-        data: 'yoyoyoyo'
-      })
-      .then((response) => {
-        consle.log(response)
-      })
-      .catch((error) => {
-        console.log(error)
-      })
-    } else {
-      console.log('FALSE',sessidCheck)
-    }
+   this.checkSession()
   },
 
   methods: {
@@ -72,6 +56,44 @@ export default {
     },
     toWelcome() {
       this.view = "welcome"
+    },
+
+    async checkSession() {
+      let allCookies = document.cookie.split(';')
+      let cookieObject = {}
+    
+      if (allCookies[0] === '') {
+        //check if there are no cookies and exit function
+        return 
+      }
+
+      allCookies.map((cookie)=>{
+          var tempCookie = cookie.split('=')
+          cookieObject[tempCookie[0].trim()] = tempCookie[1].trim()
+      })
+
+      let keys = Object.keys(cookieObject)
+      
+      if(keys.includes('sessid')) {
+          await axios.post('/sess_redir', {
+                data: {
+                    method: 'landing',
+                    sessid: cookieObject.sessid
+                }
+                })
+                .then((response) => {
+                  if (response.data.success) {
+                    console.log(response)
+                    this.$router.push({name: 'Home'})
+                  } else 
+                  if (response.data.error) {
+                    //can logg errors here
+                    console.log(response.data.error)
+                  }
+          
+                })
+                .catch((error) => console.log(error))
+      } 
     }
   },
 

@@ -93,7 +93,10 @@ const userController = {
     },
 
     async valiatePassword(data) {
-        let passwordLookup = await userModel.findOne({where: {email: data.email}, attributes: ['password']})
+        let passwordLookup = 
+            await userModel.findOne({where: {email: data.email}, attributes: ['password']})
+            .catch((error) => {'VALIDATE PASSWORD ERROR: \n', error})
+
         let storedPassword = passwordLookup.dataValues.password
         let isValid = await decrypt(data.password, storedPassword)
 
@@ -106,12 +109,32 @@ const userController = {
 
     async signin(data) {
         let sessid = uuidv4()
-        let updateSessid = await userModel.update({sessid: sessid}, {where: {email: data.email}})
+        let updateSessid = 
+            await userModel.update({sessid: sessid}, {where: {email: data.email}})
+            .catch((error) => {console.log('SIGNIN USER ERROR: \n', error)})
         return {success: {
             message: 'signin success',
             sessid: sessid
         }}
     },
+
+    async sessionRedirect(method, sessid) {
+        console.log(method)
+        let isValidSessid = await userModel.findOne({where: {sessid: sessid}})
+        
+        if (isValidSessid === null) {
+            return {error: {message: 'invalid session'}}
+        }
+        if (method === 'landing') {
+            return {success: { message: 'valid session'}}
+        }
+        if (method === 'home') {
+            return {success: {
+                message: 'valid session',
+                username: isValidSessid.dataValues.username 
+            }}
+        }
+    }
 
 }
 

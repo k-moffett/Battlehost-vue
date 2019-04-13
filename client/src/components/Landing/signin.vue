@@ -106,7 +106,7 @@ export default {
                 }
                 if(response.data.message === 'signin success') {
                     console.log('signin success')
-                    // this.$router.push('/home')
+                    this.$router.push('/home')
                 }
             })
             .catch((error) => {
