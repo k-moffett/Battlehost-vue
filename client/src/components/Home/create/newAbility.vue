@@ -2,21 +2,21 @@
     <div>
 
             <section>
-            <div>Ability Name</div>
-            <input  
-                id='ability-name-input'
-                type='text'
-                v-model='abilityName'
-            />
+                <div>Ability Name</div>
+                <input  
+                    id='ability-name-input'
+                    type='text'
+                    v-model='abilityName'
+                />
             </section>
 
             <section>
-            <div>Ability Description</div>
-            <textarea 
-                id='ability-description-input'
-                type='text'
-                v-model='abilityDescription'
-            />
+                <div>Ability Description</div>
+                <textarea 
+                    id='ability-description-input'
+                    type='text'
+                    v-model='abilityDescription'
+                />
             </section>
 
             <section id='remove-ability'>
@@ -40,6 +40,7 @@ export default {
     methods: {
         removeAbility() {
             event.preventDefault()
+            this.$emit("removeAbilityClick")
         }
     }
 }

@@ -1,32 +1,38 @@
 <template>
     <div id="create-unit-wrapper">
-        <form id='new-unit'>
-            <div id='form-title'>
-                <div>Unit Name</div>
-                <input  
-                    type='text'
-                    v-model='unitName'
-                />
 
-                <button
-                    id='add-ability-btn'
-                    @click="addNewAbility"
-                    >+ Add ability
-                </button>
-            </div>
+        <form id='new-unit'>
+
+            <div id='form-title'>
+                <section>
+                    <div>Unit Name</div>
+                    <input  
+                        type='text'
+                        v-model='unitName'
+                    />
+                    <button
+                        id='add-ability-btn'
+                        @click="addNewAbility"
+                        >+ Add ability
+                    </button>
+                </section>
+            </div> <!-- form-title -->
                 
             <div id='form-body'>
                 <newAbility 
-                    v-for="n in numberOfAbililties" 
-                    :key="n" 
-                />
+                    v-for="(ability, index) in totalAbilities" 
+                    :key="index" 
+                    :row-data="ability"
+                    :ref="'ref'+totalAbilities"
+                    @removeAbilityClick="removeAbility" 
 
+                />
                 <div>Notes:</div>
                 <textarea
                     id='notes-input'
                     v-model="notes"
                 />
-            </div>
+            </div> <!-- form-body -->
             
         </form>
     </div>
@@ -40,23 +46,26 @@ export default {
     name: 'createUnits',
     data: () => ({
         unitName: '',
-        numberOfAbililties: 0,
-        notes: ''
+        notes: '',
+        totalAbilities: 0,
     }),
     computed: {
         username() {
             return this.$store.getters.getUsername
-        }
+        },
+    
     },
     methods: {
         addNewAbility() {
             event.preventDefault()
-            if (this.numberOfAbililties < 5) {
-                this.numberOfAbililties++
-            } else {
-                console.log('incorrect number of abilities')
-            }
-        }
+            this.totalAbilities++
+        },
+
+        removeAbility(value) {
+           console.log(this.$refs)
+           console.log(value)
+            // this.totalAbilities.splice(this.totalAbilities.indexOf(ability), 1)
+        },
     },
     components: {
         newAbility
