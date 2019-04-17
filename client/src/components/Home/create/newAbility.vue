@@ -1,31 +1,33 @@
 <template>
-    <div>
+    <div id="new-ability">
 
-            <section>
+            <div id="ability-section1">
                 <div>Ability Name</div>
                 <input  
                     id='ability-name-input'
                     type='text'
+                    autocomplete="off"
                     v-model='abilityName'
                 />
-            </section>
+            </div>
 
-            <section>
+            <div id="ability-section2">
                 <div>Ability Description</div>
                 <textarea 
                     id='ability-description-input'
                     type='text'
+                    autocomplete="off"
                     v-model='abilityDescription'
                 />
-            </section>
+            </div>
 
-            <section id='remove-ability'>
+            <div id='remove-ability'>
                 <button
                     id='remove-ability-btn'
                     @click="removeAbility"
                     >x
                 </button>
-            </section>
+            </div>
     </div>
 </template>
 
@@ -34,13 +36,34 @@
 export default {
     name: 'newAbility',
     data: () => ({
-        abilityName: '',
-        abilityDescription: '',
+    
     }),
+    props: ['id'],
+    computed: {
+        abilityName: {
+            get() {
+                return this.$store.getters.getAbilityName(`ability${this.id}`)
+            },
+            set(value) {
+                this.$store.dispatch('setUnitAbilityName', {
+                    abilityId: `ability${this.id}`,
+                    name: value
+                })
+            }
+        },
+        abilityDescription: {
+            get() {
+
+            },
+            set() {
+
+            }
+        }
+    },
     methods: {
         removeAbility() {
             event.preventDefault()
-            this.$emit("removeAbilityClick")
+            this.$emit("removeAbilityClick", this.id )
         }
     }
 }

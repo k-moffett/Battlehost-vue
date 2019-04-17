@@ -3,7 +3,18 @@ $box-shadow: rgb(0, 113, 148);
 $box-shadow-inset: rgb(233, 233, 233);
 
 #create-unit-wrapper {
+    height: 85%;
+    width: 100%;
+    
+    textarea {
+        resize: none;
+    }
+}
+
+#new-unit-form {
     margin: 5%;
+    height: 85%;
+
 }
 
 #add-ability-btn {
@@ -12,3 +23,35 @@ $box-shadow-inset: rgb(233, 233, 233);
     box-shadow: .5px .5px 0px 2px $box-shadow, inset 2px 2px 2px 2px $box-shadow-inset;
 }
 
+#form-title {
+
+}
+
+#form-body {
+ height: 100%;
+}
+
+#new-ability {
+    display: flex;
+    flex-direction: row;
+}
+
+#ability-section1 {
+
+}
+
+#ability-section2 {
+    padding-left: 2%;
+}
+
+#notes {
+    position: absolute;
+    bottom: 7%;
+    height: 30%;
+    width: 88%
+}
+
+#notes-input {
+    height: 80%;
+    width: 100%
+}

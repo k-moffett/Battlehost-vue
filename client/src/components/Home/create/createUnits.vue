@@ -1,13 +1,14 @@
 <template>
     <div id="create-unit-wrapper">
 
-        <form id='new-unit'>
+        <form id='new-unit-form'>
 
             <div id='form-title'>
-                <section>
+                <div>
                     <div>Unit Name</div>
                     <input  
                         type='text'
+                        autocomplete="off"
                         v-model='unitName'
                     />
                     <button
@@ -15,23 +16,31 @@
                         @click="addNewAbility"
                         >+ Add ability
                     </button>
-                </section>
+                </div>
             </div> <!-- form-title -->
                 
             <div id='form-body'>
-                <newAbility 
-                    v-for="(ability, index) in totalAbilities" 
-                    :key="index" 
-                    :row-data="ability"
-                    :ref="'ref'+totalAbilities"
+                <newAbility
+                    v-for="ability in abilities"
+                    :key="ability.id"
+                    :id="ability.id"
                     @removeAbilityClick="removeAbility" 
+                />
+                <div id="notes">
+                    <div>Notes:</div>
+                    <textarea
+                        autocomplete="off"
+                        id='notes-input'
+                        v-model="notes"
+                    />
 
-                />
-                <div>Notes:</div>
-                <textarea
-                    id='notes-input'
-                    v-model="notes"
-                />
+                    <button 
+                        id='add-ability-btn'
+                        @click="submitUnit"
+                        >Submit
+                    </button>
+                </div>
+
             </div> <!-- form-body -->
             
         </form>
@@ -45,27 +54,45 @@ import newAbility from './newAbility.vue'
 export default {
     name: 'createUnits',
     data: () => ({
-        unitName: '',
+        id: 0,
+        abilities: [],
         notes: '',
-        totalAbilities: 0,
     }),
     computed: {
         username() {
             return this.$store.getters.getUsername
         },
+        unitName: {
+            get() {
+                return this.$store.getters.getUnitName
+            },
+            set(value) {
+                this.$store.dispatch('setUnitName', value)
+            }
+        }
     
     },
     methods: {
         addNewAbility() {
             event.preventDefault()
-            this.totalAbilities++
+            if (this.abilities.length < 5) {
+                this.id++
+                this.abilities.push({
+                    id: this.id
+                })
+            }
         },
 
-        removeAbility(value) {
-           console.log(this.$refs)
-           console.log(value)
-            // this.totalAbilities.splice(this.totalAbilities.indexOf(ability), 1)
+        removeAbility(id) {
+            this.abilities.splice(this.abilities.findIndex(function(ability){
+                return ability.id === id
+            }), 1)
         },
+
+        submitUnit() {
+            event.preventDefault()
+            console.log(this.$store.getters.getForm)
+        }
     },
     components: {
         newAbility
