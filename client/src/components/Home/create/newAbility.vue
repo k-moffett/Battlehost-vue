@@ -53,10 +53,13 @@ export default {
         },
         abilityDescription: {
             get() {
-
+                return this.$store.getters.getAbilityDescription(`ability${this.id}`)
             },
-            set() {
-
+            set(value) {
+                this.$store.dispatch('setUnitAbilityDescription', {
+                    abilityId: `ability${this.id}`,
+                    description: value
+                })
             }
         }
     },

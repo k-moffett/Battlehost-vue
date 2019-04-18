@@ -11,6 +11,7 @@
                         autocomplete="off"
                         v-model='unitName'
                     />
+                    
                     <button
                         id='add-ability-btn'
                         @click="addNewAbility"
@@ -36,6 +37,7 @@
 
                     <button 
                         id='add-ability-btn'
+                        type="button"
                         @click="submitUnit"
                         >Submit
                     </button>
@@ -55,23 +57,16 @@ export default {
     name: 'createUnits',
     data: () => ({
         id: 0,
+        unitName: '',
         abilities: [],
-        notes: '',
+        notes: ''
     }),
     computed: {
         username() {
-            return this.$store.getters.getUsername
-        },
-        unitName: {
-            get() {
-                return this.$store.getters.getUnitName
-            },
-            set(value) {
-                this.$store.dispatch('setUnitName', value)
-            }
+          return this.$store.getters.getUsername
         }
-    
     },
+
     methods: {
         addNewAbility() {
             event.preventDefault()
@@ -87,11 +82,18 @@ export default {
             this.abilities.splice(this.abilities.findIndex(function(ability){
                 return ability.id === id
             }), 1)
+            this.$store.dispatch('removeAbility', `ability${id}`)
         },
 
         submitUnit() {
             event.preventDefault()
-            console.log(this.$store.getters.getForm)
+            let unit = {
+                user: this.username,
+                name: this.unitName,
+                abilities: this.$store.getters.getUnitAbilities,
+                notes: this.notes
+            }
+            console.log(unit)
         }
     },
     components: {
